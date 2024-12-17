@@ -28,3 +28,11 @@ fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
         `
     })
     .catch(err => console.error(err))
+
+// Getting the current time and displaying it on the screen
+const getCurrentTime = () => {
+    const date = new Date()
+    document.querySelector('.time').innerHTML = date.toLocaleTimeString("en-us", {timeStyle: "short"})
+}
+getCurrentTime()
+setInterval(getCurrentTime, 1000)
