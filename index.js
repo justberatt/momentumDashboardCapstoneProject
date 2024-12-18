@@ -2,11 +2,11 @@ fetch("https://api.unsplash.com/photos/random?client_id=Y8fIJeQlFd-Oc0T5Bs4mrd0L
 	.then(res => res.json())
 	.then(data => {
         document.body.style.backgroundImage = `url(${data.urls.full})`
-		document.getElementById("author").textContent = `By: ${data.user.name}`
+		document.getElementById("author").textContent = `Image by: ${data.user.name}`
 	})
     .catch(err => {
         document.body.style.backgroundImage = `url("https://images.unsplash.com/photo-1563216368-5b6a40648062?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzQ0NDQ5ODd8&ixlib=rb-4.0.3&q=85")`
-		document.getElementById("author").textContent = `By: Hugues de BUYER-MIMEURE`
+		document.getElementById("author").textContent = `Image by: Hugues de BUYER-MIMEURE`
     })
 
 fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
@@ -36,3 +36,37 @@ const getCurrentTime = () => {
 }
 getCurrentTime()
 setInterval(getCurrentTime, 1000)
+
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts&appid=bedcf5a207a41b2133ded30f3a365dee`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+                document.querySelector('#crypto-top').innerHTML = `
+                    <img src="${data.current.weather.icon}">
+                    <span>${data.current.temp}</span>
+                `
+                document.querySelector('#crypto-top').innerHTML = `
+                    <p>${data.timezone}</p>
+                `
+            })
+            .catch((error) => console.error('Fetch error:', error));
+        },
+        (error) => {
+            console.error('Geolocation error:', error.message);
+            alert('Unable to fetch location. Please allow location access.');
+        }
+    );
+} else {
+    console.error("Geolocation is not supported by this browser.");
+    alert("Your browser does not support geolocation. Please use a modern browser.");
+}
