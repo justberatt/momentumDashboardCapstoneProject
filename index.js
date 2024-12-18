@@ -51,12 +51,12 @@ if ("geolocation" in navigator) {
             })
             .then((data) => {
                 console.log(data);
-                document.querySelector('#crypto-top').innerHTML = `
-                    <img src="${data.current.weather.icon}">
-                    <span>${data.current.temp}</span>
+                document.querySelector('#weather-top').innerHTML = `
+                    <img src="${data.weather[0].icon}">
+                    <span>${data.main.temp}</span>
                 `
-                document.querySelector('#crypto-top').innerHTML = `
-                    <p>${data.timezone}</p>
+                document.querySelector('#weather-timezone').innerHTML = `
+                    <p>${data.name}</p>
                 `
             })
             .catch((error) => console.error('Fetch error:', error));
