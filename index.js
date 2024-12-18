@@ -42,7 +42,7 @@ if ("geolocation" in navigator) {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts&appid=bedcf5a207a41b2133ded30f3a365dee`)
+        fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts&appid=bcd0153a4a596104bd0fadd90f5782a3`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! Status: ${res.status}`);
@@ -52,11 +52,11 @@ if ("geolocation" in navigator) {
             .then((data) => {
                 console.log(data);
                 document.querySelector('#weather-top').innerHTML = `
-                    <img src="${data.weather[0].icon}">
-                    <span>${data.main.temp}</span>
+                    <img src="https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png">
+                    <span>${Math.round(data.current.temp)}º</span>
                 `
                 document.querySelector('#weather-timezone').innerHTML = `
-                    <p>${data.name}</p>
+                    <p>${data.timezone}</p>
                 `
             })
             .catch((error) => console.error('Fetch error:', error));
